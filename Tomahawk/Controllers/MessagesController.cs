@@ -10,7 +10,6 @@ using System.Web.Mvc;
 using Tomahawk.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace Tomahawk.Controllers
 {
@@ -33,9 +32,20 @@ namespace Tomahawk.Controllers
             return View(db.Messages.ToList().Where(msg => msg.User.Id == currentUser.Id));
         }
 
-        public async Task<ActionResult> All()
+        [HttpGet]
+        public async Task<JsonResult> All()
         {
-            return View(await db.Messages.ToListAsync());
+            // This is a clever way to avoid circular references with JSON serialization
+            // source: http://blog.davebouwman.com/2011/12/08/handling-circular-references-asp-net-mvc-json-serialization/
+            var data = await db.Messages.ToListAsync();
+            var collection = data.Select(x => new
+            {
+                id = x.ID,
+                text = x.Text,
+                name = x.User.UserName
+            });
+
+            return Json(collection, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Messages/Details/5
