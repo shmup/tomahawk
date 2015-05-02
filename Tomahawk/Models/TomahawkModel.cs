@@ -26,11 +26,6 @@ namespace Tomahawk.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<IdentityUser>()
-                .ToTable("Users");
-            modelBuilder.Entity<MyUser>()
-                .ToTable("Users");
         }
 
         public DbSet<Message> Messages { get; set; }
