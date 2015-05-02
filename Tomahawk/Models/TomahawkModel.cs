@@ -1,0 +1,38 @@
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Data.Entity;
+
+namespace Tomahawk.Models
+{
+    public class MyUser : IdentityUser
+    {
+        public virtual ICollection<Message> Messages { get; set; }
+    }
+
+    public class Message
+    {
+        public int ID { get; set; }
+        public string Text { get; set; }
+        public virtual MyUser User { get; set; }
+    }
+
+    public class TomahawkContext : IdentityDbContext<MyUser>
+    {
+        public TomahawkContext() : base("DefaultConnection") { }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityUser>()
+                .ToTable("Users");
+            modelBuilder.Entity<MyUser>()
+                .ToTable("Users");
+        }
+
+        public DbSet<Message> Messages { get; set; }
+    }
+}
