@@ -1,4 +1,10 @@
-﻿<button data-bind="click: openMessage, disable: isOpen">New Message</button>
+﻿<div class="row">
+    <button data-bind="click: openMessage, disable: isOpen" type="button" class="btn btn-default">New Message</button>
+</div>
+
+<div class="row">
+    Messages (tweets) will go here
+</div>
 
 <div class="new-message" data-bind="dialog: { isOpen: isOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: message, valueUpdate: 'input'"></textarea>
