@@ -2,23 +2,28 @@
     <button data-bind="click: openMessage, disable: isOpen" type="button" class="btn btn-default">New Message</button>
 </div>
 
-<div class="row">
-    <ul data-bind="foreach: messages">
-        <li>
-            <div class="message">
-                <input type="hidden" data-bind="value: id" />
-                <div class="message-header">
-                    @@<span data-bind="text: name"></span>
+<div data-bind="page: {id: 'start'}">
+    <div class="row">
+        <ul data-bind="foreach: messages">
+            <li>
+                <div class="message">
+                    <input type="hidden" data-bind="value: id" />
+                    <div class="message-header">
+                        <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
+                    </div>
+                    <div data-bind="text: text"></div>
+                    <div class="message-footer">
+                        <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a href="#">Reply</a>
+                    </div>
+                    <br style="clear: both"/>
                 </div>
-                <div data-bind="text: text"></div>
-                <div class="message-footer">
-                    <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a href="#">Reply</a>
-                </div>
-                <br style="clear: both"/>
-            </div>
-        </li>
-    </ul>
-    Messages (tweets) will go here
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div data-bind="page: {id: 'details', params: ['name','id'], afterShow: loadDetails}">
+    <a data-bind="page-href: '../start'">start</a>
 </div>
 
 <div class="new-message" data-bind="dialog: { isOpen: isOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">

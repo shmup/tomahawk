@@ -9,6 +9,7 @@ $(document).ready(function () {
         self.isOpen = ko.observable(false)
         self.message = ko.observable("")
         self.canSend = ko.observable(true)
+        self.replies = ko.observableArray([])
 
         self.getCharacterCount = ko.computed(function () {
             var limit = 140,
@@ -27,25 +28,25 @@ $(document).ready(function () {
             self.isOpen(true)
         }
 
-        self.sendMessage = function(data) {
+        self.sendMessage = function (data) {
             $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 self.isOpen(false)
 
                 if (typeof result === "string") {
                     result = JSON.parse(result)
                 }
-                
+
                 var msg = message(result)
 
                 self.messages.push(msg)
             })
         }
 
-        self.deleteMessage = function() {
+        self.deleteMessage = function () {
             var message = this;
-            var data = { 
+            var data = {
                 id: message.id,
-                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() 
+                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
             $.post("/Messages/Delete", data, function (result) {
                 if (result.status) {
@@ -56,30 +57,39 @@ $(document).ready(function () {
             })
         }
 
-        self.createComment = function(comment) {
+        self.createComment = function (comment) {
             var reply = this;
-            var data = { 
+            var data = {
                 Text: comment.text,
                 Parent_ID: comment.message_id,
-                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() 
+                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
             $.post("/Messages/ReplyCreate", data, function (result) {
                 if (typeof result === "string") {
                     result = JSON.parse(result)
                 }
-                
+
                 var reply = reply(result)
             })
+        }
+
+        self.loadDetails = function() {
+            var id = self.id()
+            var name = self.name()
         }
     }
 
     var viewModel = new vm();
 
+    pager.extendWithPage(viewModel)
+
     ko.applyBindings(viewModel, document.getElementById("wrapper"))
+
+    pager.start()
 
     $.getJSON("/Messages/All", function (data) {
         viewModel.messages(data)
-        viewModel.createComment({text: "pickle", message_id: 1})
+    //viewModel.createComment({text: "pickle", message_id: 1})
     })
 })
 
