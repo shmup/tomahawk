@@ -19,6 +19,13 @@ namespace Tomahawk.Models
         public virtual MyUser User { get; set; }
     }
 
+    public class Reply
+    {
+        public int ID { get; set; }
+        public string Text { get; set; }
+        public virtual Message Parent { get; set; }
+    }
+
     public class TomahawkContext : IdentityDbContext<MyUser>
     {
         public TomahawkContext() : base("DefaultConnection") { }
@@ -29,5 +36,6 @@ namespace Tomahawk.Models
         }
 
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Reply> Replies { get; set; }
     }
 }
