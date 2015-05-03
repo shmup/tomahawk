@@ -30,8 +30,9 @@ $(document).ready(function () {
             self.isOpen(true)
         }
 
-        self.createMessage = function(msg) {
-            $.post("/Messages/Create", { Text: msg, __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
+        self.sendMessage = function(data) {
+            debugger;
+            $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 debugger;
             })
         }

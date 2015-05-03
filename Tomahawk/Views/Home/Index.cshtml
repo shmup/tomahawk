@@ -17,7 +17,7 @@
 <div class="new-message" data-bind="dialog: { isOpen: isOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: message, valueUpdate: 'input'"></textarea>
     <div>
-        <button data-bind="enable: canSend()">Send</button>
+        <button data-bind="enable: canSend(), click: sendMessage">Send</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
