@@ -23,5 +23,25 @@ textarea {
     max-width: 280px;
 }
 
+.body-content li {
+    list-style-type: none;
+}
+
 .new-message .green { color: green }
 .new-message .red { color: red }
+
+.message {
+    width: 500px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #F0F6E7;
+    margin-bottom: 5px; 
+    position: relative;
+}
+
+.message-footer {
+    position: absolute;
+    right: 2px;
+    bottom: 0px;
+}

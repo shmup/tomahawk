@@ -55,25 +55,21 @@ namespace Tomahawk.Controllers
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null)
             {
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                return Json(new Dictionary<string, string> {
-                    { "status", "false" },
-                    { "message", "ID is required"}
+                return Json(new Dictionary<string, bool> {
+                    { "status", false }
                 });
             }
             Message message = await db.Messages.FindAsync(id);
             if (message == null)
             {
-                return Json(new Dictionary<string, string> {
-                    { "status", "false" },
-                    { "message", "Message is null"}
+                return Json(new Dictionary<string, bool> {
+                    { "status", false }
                 });
             }
             if (message.User.Id != currentUser.Id)
             {
-                return Json(new Dictionary<string, string> {
-                    { "status", "false" },
-                    { "message", "Not authorized"}
+                return Json(new Dictionary<string, bool> {
+                    { "status", false }
                 });
             }
 
@@ -105,14 +101,13 @@ namespace Tomahawk.Controllers
                 message.User = currentUser;
                 db.Messages.Add(message);
                 await db.SaveChangesAsync();
-                return Json(new Dictionary<string, string> {
-                    { "status", "true" },
+                return Json(new Dictionary<string, bool> {
+                    { "status", true }
                 });
             }
 
-            return Json(new Dictionary<string, string> {
-                { "status", "false" },
-                { "message", "Not authorized"}
+            return Json(new Dictionary<string, bool> {
+                { "status", false }
             });
         }
 
@@ -171,12 +166,23 @@ namespace Tomahawk.Controllers
         // POST: Messages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<JsonResult> DeleteConfirmed(int id)
         {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             Message message = await db.Messages.FindAsync(id);
+
+            if (message.User.Id != currentUser.Id)
+            {
+                return Json(new Dictionary<string, bool> {
+                    { "status", false }
+                });
+            }
+
             db.Messages.Remove(message);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Json(new Dictionary<string, bool> {
+                { "status", true }
+            });
         }
 
         protected override void Dispose(bool disposing)

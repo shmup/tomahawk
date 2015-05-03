@@ -37,6 +37,21 @@ $(document).ready(function () {
             })
         }
 
+        self.deleteMessage = function() {
+            var message = this;
+            var data = { 
+                id: message.id,
+                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() 
+            }
+            $.post("/Messages/Delete", data, function (result) {
+                if (result.status) {
+                    self.messages.remove(message)
+                } else {
+                    alert("Nice try buddy")
+                }
+            })
+        }
+
         self.createComment = function (comment) {
             $.post("/Messages/Create", { Text: "lol", __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 debugger;

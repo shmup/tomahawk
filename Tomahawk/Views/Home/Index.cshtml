@@ -5,9 +5,16 @@
 <div class="row">
     <ul data-bind="foreach: messages">
         <li>
-            <div>
-                <span data-bind="text: name"></span>
+            <div class="message">
+                <input type="hidden" data-bind="value: id" />
+                <div class="message-header">
+                    @@<span data-bind="text: name"></span>
+                </div>
                 <div data-bind="text: text"></div>
+                <div class="message-footer">
+                    <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a href="#">Reply</a>
+                </div>
+                <br style="clear: both"/>
             </div>
         </li>
     </ul>
