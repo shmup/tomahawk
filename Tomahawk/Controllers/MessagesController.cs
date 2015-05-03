@@ -97,7 +97,7 @@ namespace Tomahawk.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Text")] Message message)
+        public async Task<JsonResult> Create([Bind(Include = "ID,Text")] Message message)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (ModelState.IsValid)
@@ -105,10 +105,15 @@ namespace Tomahawk.Controllers
                 message.User = currentUser;
                 db.Messages.Add(message);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Json(new Dictionary<string, string> {
+                    { "status", "true" },
+                });
             }
 
-            return View(message);
+            return Json(new Dictionary<string, string> {
+                { "status", "false" },
+                { "message", "Not authorized"}
+            });
         }
 
         // GET: Messages/Edit/5

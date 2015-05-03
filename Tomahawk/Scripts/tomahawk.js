@@ -29,6 +29,18 @@ $(document).ready(function () {
         self.openMessage = function () {
             self.isOpen(true)
         }
+
+        self.createMessage = function(msg) {
+            $.post("/Messages/Create", { Text: msg, __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
+                debugger;
+            })
+        }
+
+        self.createComment = function (comment) {
+            $.post("/Messages/Create", { Text: "lol", __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
+                debugger;
+            })
+        }
     }
 
     var viewModel = new vm();
@@ -39,3 +51,18 @@ $(document).ready(function () {
         viewModel.messages(data)
     })
 })
+
+var message = function (id, text, username, date) {
+    this.id = id;
+    this.text = text;
+    this.username = username;
+    this.date = date;
+    this.comments = ko.observableArray([]);
+}
+
+var comment = function (id, text, username, date) {
+    this.id = id;
+    this.text = text;
+    this.username = username;
+    this.date = date;
+}
