@@ -20,6 +20,7 @@ namespace Tomahawk.Models
         [MaxLength(140)]
         public string Text { get; set; }
         public virtual MyUser User { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
     }
 
     public class Reply
