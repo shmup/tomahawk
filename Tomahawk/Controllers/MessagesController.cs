@@ -190,6 +190,35 @@ namespace Tomahawk.Controllers
             });
         }
 
+        // POST: Replies/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> ReplyCreate(int? Parent_ID, [Bind(Include = "ID,Text")] Reply reply)
+        {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+            Message message = await db.Messages.FindAsync(Parent_ID);
+            if (ModelState.IsValid)
+            {
+                reply.Parent = message;
+                db.Replies.Add(reply);
+                await db.SaveChangesAsync();
+
+                var json = JsonConvert.SerializeObject(reply, new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented,
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new Dictionary<string, bool> {
+                { "status", false }
+            });
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
