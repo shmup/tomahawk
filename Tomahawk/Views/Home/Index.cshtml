@@ -3,6 +3,14 @@
 </div>
 
 <div class="row">
+    <ul data-bind="foreach: messages">
+        <li>
+            <div>
+                <span data-bind="text: name"></span>
+                <div data-bind="text: text"></div>
+            </div>
+        </li>
+    </ul>
     Messages (tweets) will go here
 </div>
 
