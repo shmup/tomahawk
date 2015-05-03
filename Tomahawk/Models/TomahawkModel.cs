@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tomahawk.Models
 {
@@ -15,6 +16,8 @@ namespace Tomahawk.Models
     public class Message
     {
         public int ID { get; set; }
+        [MinLength(1)]
+        [MaxLength(140)]
         public string Text { get; set; }
         public virtual MyUser User { get; set; }
     }
@@ -22,6 +25,8 @@ namespace Tomahawk.Models
     public class Reply
     {
         public int ID { get; set; }
+        [MinLength(1)]
+        [MaxLength(140)]
         public string Text { get; set; }
         public virtual Message Parent { get; set; }
     }
