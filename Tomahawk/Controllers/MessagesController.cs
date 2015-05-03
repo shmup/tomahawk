@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Tomahawk.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace Tomahawk.Controllers
 {
@@ -49,23 +50,40 @@ namespace Tomahawk.Controllers
         }
 
         // GET: Messages/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<JsonResult> Details(int? id)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Json(new Dictionary<string, string> {
+                    { "status", "false" },
+                    { "message", "ID is required"}
+                });
             }
             Message message = await db.Messages.FindAsync(id);
             if (message == null)
             {
-                return HttpNotFound();
+                return Json(new Dictionary<string, string> {
+                    { "status", "false" },
+                    { "message", "Message is null"}
+                });
             }
             if (message.User.Id != currentUser.Id)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+                return Json(new Dictionary<string, string> {
+                    { "status", "false" },
+                    { "message", "Not authorized"}
+                });
             }
-            return View(message);
+
+            var json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            });
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Messages/Create
