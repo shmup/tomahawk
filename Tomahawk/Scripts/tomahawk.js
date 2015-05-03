@@ -6,11 +6,8 @@ $(document).ready(function () {
         var self = this
 
         self.messages = ko.observableArray([])
-
         self.isOpen = ko.observable(false)
-
         self.message = ko.observable("")
-
         self.canSend = ko.observable(true)
 
         self.getCharacterCount = ko.computed(function () {
@@ -31,9 +28,18 @@ $(document).ready(function () {
         }
 
         self.sendMessage = function(data) {
-            debugger;
             $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 self.isOpen(false)
+
+                if (typeof result === "string") {
+                    result = JSON.parse(result)
+                }
+                
+                var msg = message(result)
+
+                debugger
+
+                self.messages.push(msg)
             })
         }
 
@@ -68,12 +74,12 @@ $(document).ready(function () {
     })
 })
 
-var message = function (id, text, username, date) {
-    this.id = id;
-    this.text = text;
-    this.username = username;
-    this.date = date;
-    this.comments = ko.observableArray([]);
+var message = function (data) {
+    return {
+        id: data.ID,
+        text: data.Text,
+        name: data.User.UserName
+    }
 }
 
 var comment = function (id, text, username, date) {

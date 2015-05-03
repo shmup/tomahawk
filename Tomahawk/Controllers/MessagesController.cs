@@ -101,9 +101,14 @@ namespace Tomahawk.Controllers
                 message.User = currentUser;
                 db.Messages.Add(message);
                 await db.SaveChangesAsync();
-                return Json(new Dictionary<string, bool> {
-                    { "status", true }
+
+                var json = JsonConvert.SerializeObject(message, new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented,
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
+
+                return Json(json, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new Dictionary<string, bool> {
