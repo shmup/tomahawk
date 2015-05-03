@@ -14,7 +14,7 @@ $(document).ready(function () {
         self.canSend = ko.observable(true)
 
         self.getCharacterCount = ko.computed(function () {
-            var limit = 10,
+            var limit = 140,
                 count = self.message().length
 
             if (count > limit) {
@@ -33,7 +33,7 @@ $(document).ready(function () {
         self.sendMessage = function(data) {
             debugger;
             $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
-                debugger;
+                self.isOpen(false)
             })
         }
 
