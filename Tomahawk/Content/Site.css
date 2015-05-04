@@ -61,3 +61,7 @@ textarea {
     right: 2px;
     bottom: 0px;
 }
+
+.user-text {
+    word-wrap: break-word;
+}

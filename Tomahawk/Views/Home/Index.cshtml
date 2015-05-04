@@ -11,7 +11,7 @@
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
                     </div>
-                    <div data-bind="text: text"></div>
+                    <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer">
                         <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
                     </div>
@@ -31,7 +31,7 @@
         <div class="message-header">
             <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
         </div>
-        <div data-bind="text: text"></div>
+        <div class="user-text" data-bind="text: text"></div>
         <div class="message-footer">
             <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen"href="#">Reply</a>
         </div>
@@ -45,7 +45,7 @@
                     <div class="reply-header">
                         <span data-bind="text: name"></span>
                     </div>
-                    <div data-bind="text: text"></div>
+                    <div class="user-text" data-bind="text: text"></div>
                     <div class="reply-footer">
                         <a data-bind="click: $root.deleteReply" class="delete "href="#">Delete</a>
                     </div>
