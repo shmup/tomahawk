@@ -135,3 +135,7 @@ body {
     background-image:url(/Content/bg.jpg);
     background-repeat:repeat;
 }
+
+.user-text:hover {
+    cursor: pointer;
+}

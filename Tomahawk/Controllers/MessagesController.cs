@@ -48,6 +48,25 @@ namespace Tomahawk.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> UserAll(string user)
+        {
+            // This is a clever way to avoid circular references with JSON serialization
+            // source: http://blog.davebouwman.com/2011/12/08/handling-circular-references-asp-net-mvc-json-serialization/
+            var messages = await db.Messages
+                .Where(m => m.User.UserName.ToLower() == user)
+                .OrderByDescending(m => m.ID)
+                .ToListAsync();
+            var result = messages.Select(x => new
+            {
+                id = x.ID,
+                text = x.Text,
+                name = x.User.UserName
+            });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Messages/Details/5
         public async Task<JsonResult> Details(int? id)
         {
