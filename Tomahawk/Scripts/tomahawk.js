@@ -78,6 +78,7 @@
             $.post("/Messages/Delete", data, function (result) {
                 if (result.success) {
                     self.messages.remove(message)
+                    pager.goTo("start")
                 } else {
                     alert("Nice try buddy")
                 }
@@ -118,6 +119,15 @@
             self.messageIsOpen(false)
             self.replyIsOpen(false)
             self.messageText("")
+
+            self.spinner.spin()
+
+            $.getJSON("/Messages/All", function (data) {
+                if (typeof data === "object") {
+                    self.messages(data)
+                    self.spinner.stop()
+                }
+            })
         }
 
         self.loadDetails = function() {
