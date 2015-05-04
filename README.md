@@ -1,5 +1,4 @@
-Tomahawk
-###
+# Tomahawk
 
 A Twitter clone.
 
