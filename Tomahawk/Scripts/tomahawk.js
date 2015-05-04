@@ -51,6 +51,7 @@
                     var msg = message(result)
                     self.messages.unshift(msg)
                     self.messageText("")
+                    highlight($("#message_" +msg.id));
                 }
             })
         }
@@ -109,10 +110,12 @@
                 if (result.success) {
                     self.replyIsOpen(false)
                     self.replies.push(reply(result))
+                    var replyElement = $("#reply_" + result.id)
                     $('html, body').animate({
-                        scrollTop: $("#reply_" + result.id).offset().top
+                        scrollTop: replyElement.offset().top
                         }, 1000);
                     }
+                    highlight(replyElement)
             })
         }
 
@@ -209,4 +212,9 @@ var newSpinner = function () {
         left: '50%' // Left position relative to parent
     };
     return new Spinner(opts).spin();
+}
+
+
+var highlight = function (elem) {
+    $(elem).effect("highlight", { }, 1500);
 }

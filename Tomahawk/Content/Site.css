@@ -88,3 +88,8 @@ ul.message-list {
     font-weight: bold;
     margin-right: 10px;
 }
+
+.highlight {
+    background: #F7F778; /* IE */
+    background: rgba(255, 255, 0, 0.5); /* Everyone else */
+}
