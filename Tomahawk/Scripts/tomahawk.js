@@ -7,6 +7,7 @@
             self.loggedIn(JSON.parse($("#authorized").val()))
         }
 
+        self.username = $("#username").val()
         self.messages = ko.observableArray([])
         self.details = ko.observable()
         self.replies = ko.observableArray([])

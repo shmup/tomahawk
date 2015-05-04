@@ -14,7 +14,7 @@
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer" data-bind="visible: $root.loggedIn()">
-                        <a data-bind="click: $root.deleteMessage" class="delete " href="#">Delete</a> <a data-bind="page-href: {path: '../details', params: {name: name, id: id, reply: 'true'}}">Reply</span></a>
+                        <a data-bind="click: $root.deleteMessage, visible: (name == $root.username)" class="delete " href="#">Delete</a> <a data-bind="page-href: {path: '../details', params: {name: name, id: id, reply: 'true'}}">Reply</span></a>
                     </div>
                     <br style="clear: both" />
                 </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="user-text" data-bind="text: text"></div>
             <div class="message-footer" data-bind="visible: $root.loggedIn()">
-                <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
+                <a data-bind="click: $root.deleteMessage, visible: (name == $root.username)" class="delete "href="#">Delete</a> <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
             </div>
             <br style="clear: both"/>
         </div>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="user-text" data-bind="text: text"></div>
                         <div class="reply-footer" data-bind="visible: $root.loggedIn()">
-                            <a data-bind="click: $root.deleteReply" class="delete "href="#">Delete</a>
+                            <a data-bind="click: $root.deleteReply, visible: (name == $root.username)" class="delete "href="#">Delete</a>
                         </div>
                         <br style="clear: both"/>
                     </div>
