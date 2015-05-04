@@ -26,3 +26,9 @@ A Twitter clone.
 :white_medium_square: [Single Page Application](https://github.com/shmup/tomahawk/issues/5) (mostly complete)
 
 :white_medium_square: [Unit Tests](https://github.com/shmup/tomahawk/issues/6)
+
+### Seed Data
+
+The database is seeded with a few users, messages and replies.
+
+The password for the accounts can be found in the [Configuration.cs](https://github.com/shmup/tomahawk/blob/master/Tomahawk/Migrations/Configuration.cs)
