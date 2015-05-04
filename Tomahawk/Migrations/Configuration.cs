@@ -18,14 +18,14 @@ namespace Tomahawk.Migrations
         protected override void Seed(Tomahawk.Models.TomahawkContext context)
         {
             var passwordHash = new PasswordHasher();
-            string password = passwordHash.HashPassword("k3yB0ard!");
+            string password = passwordHash.HashPassword("Password@123");
 
             var users = new List<MyUser>
             {
-                new MyUser { UserName = "shmup", Email = "shmup@fake.com", PasswordHash = password },
-                new MyUser { UserName = "eric", Email = "eric@fake.com", PasswordHash = password },
-                new MyUser { UserName = "jed", Email = "jed@fake.com", PasswordHash = password },
-                new MyUser { UserName = "burt", Email = "burt@fake.com", PasswordHash = password }
+                new MyUser { UserName = "shmup", Email = "shmup@fake.com", PasswordHash = password, SecurityStamp = "fake" },
+                new MyUser { UserName = "eric", Email = "eric@fake.com", PasswordHash = password, SecurityStamp = "fake" },
+                new MyUser { UserName = "jed", Email = "jed@fake.com", PasswordHash = password, SecurityStamp = "fake" },
+                new MyUser { UserName = "burt", Email = "burt@fake.com", PasswordHash = password, SecurityStamp = "fake" }
             };
 
             users.ForEach(u => context.Users.AddOrUpdate(m => m.Email, u));
@@ -54,8 +54,31 @@ namespace Tomahawk.Migrations
 
             messages.ForEach(m => context.Messages.Add(m));
 
-            var replies = new List<Reply>
+            context.SaveChanges();
+
+            foreach (Message m in messages)
             {
+                var replies = new List<Reply>
+                {
+                    new Reply {
+                        Text = "Fake Reply",
+                        User = users.Single(u => u.UserName == "eric"),
+                        Parent = m
+                    },
+                    new Reply {
+                        Text = "Faker Reply",
+                        User = users.Single(u => u.UserName == "jed"),
+                        Parent = m
+                    },
+                    new Reply {
+                        Text = "Fakest Reply",
+                        User = users.Single(u => u.UserName == "burt"),
+                        Parent = m
+                    }
+                };
+
+                replies.ForEach(r => context.Replies.Add(r));
+                context.SaveChanges();
             };
         }
     }

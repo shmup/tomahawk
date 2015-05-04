@@ -178,29 +178,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201505022121123_initial.cs" />
-    <Compile Include="Migrations\201505022121123_initial.Designer.cs">
-      <DependentUpon>201505022121123_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505030102100_replies.cs" />
-    <Compile Include="Migrations\201505030102100_replies.Designer.cs">
-      <DependentUpon>201505030102100_replies.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505030337024_textlength.cs" />
-    <Compile Include="Migrations\201505030337024_textlength.Designer.cs">
-      <DependentUpon>201505030337024_textlength.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505032313194_replies in message.cs" />
-    <Compile Include="Migrations\201505032313194_replies in message.Designer.cs">
-      <DependentUpon>201505032313194_replies in message.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505040208502_user in replies.cs" />
-    <Compile Include="Migrations\201505040208502_user in replies.Designer.cs">
-      <DependentUpon>201505040208502_user in replies.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505040259163_cascade delete replies.cs" />
-    <Compile Include="Migrations\201505040259163_cascade delete replies.Designer.cs">
-      <DependentUpon>201505040259163_cascade delete replies.cs</DependentUpon>
+    <Compile Include="Migrations\201505041956163_needed a security stamp in the users account seed.cs" />
+    <Compile Include="Migrations\201505041956163_needed a security stamp in the users account seed.Designer.cs">
+      <DependentUpon>201505041956163_needed a security stamp in the users account seed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -325,23 +305,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505022121123_initial.resx">
-      <DependentUpon>201505022121123_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505030102100_replies.resx">
-      <DependentUpon>201505030102100_replies.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505030337024_textlength.resx">
-      <DependentUpon>201505030337024_textlength.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505032313194_replies in message.resx">
-      <DependentUpon>201505032313194_replies in message.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505040208502_user in replies.resx">
-      <DependentUpon>201505040208502_user in replies.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505040259163_cascade delete replies.resx">
-      <DependentUpon>201505040259163_cascade delete replies.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505041956163_needed a security stamp in the users account seed.resx">
+      <DependentUpon>201505041956163_needed a security stamp in the users account seed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

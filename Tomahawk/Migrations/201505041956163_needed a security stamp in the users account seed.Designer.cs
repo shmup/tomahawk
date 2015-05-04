@@ -7,13 +7,13 @@ namespace Tomahawk.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class textlength : IMigrationMetadata
+    public sealed partial class neededasecuritystampintheusersaccountseed : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(textlength));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(neededasecuritystampintheusersaccountseed));
         
         string IMigrationMetadata.Id
         {
-            get { return "201505030337024_textlength"; }
+            get { return "201505041956163_needed a security stamp in the users account seed"; }
         }
         
         string IMigrationMetadata.Source

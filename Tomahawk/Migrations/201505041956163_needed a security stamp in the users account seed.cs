@@ -3,7 +3,7 @@ namespace Tomahawk.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class neededasecuritystampintheusersaccountseed : DbMigration
     {
         public override void Up()
         {
@@ -12,11 +12,26 @@ namespace Tomahawk.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Text = c.String(),
+                        Text = c.String(maxLength: 140),
                         User_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
+                "dbo.Replies",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Text = c.String(maxLength: 140),
+                        Parent_ID = c.Int(nullable: false),
+                        User_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Messages", t => t.Parent_ID, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.Parent_ID)
                 .Index(t => t.User_Id);
             
             CreateTable(
@@ -92,22 +107,27 @@ namespace Tomahawk.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Replies", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Messages", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Replies", "Parent_ID", "dbo.Messages");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Replies", new[] { "User_Id" });
+            DropIndex("dbo.Replies", new[] { "Parent_ID" });
             DropIndex("dbo.Messages", new[] { "User_Id" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Replies");
             DropTable("dbo.Messages");
         }
     }
