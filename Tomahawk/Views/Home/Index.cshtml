@@ -2,7 +2,7 @@
 
 <div data-bind="page: {id: 'start', afterShow: cleanUp}">
     <div class="row">
-        <a class="logo" data-bind="click: cleanUp">Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">New Message</button>
+        <a class="logo" data-bind="click: cleanUp"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">New Message</button>
     </div>
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
@@ -25,7 +25,7 @@
 
 <div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails}">
     <div class="row">
-        <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
+        <a class="logo" data-bind="page-href: '../start'"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
     </div>
     <div class="row">
         <!-- ko if: $root.details -->

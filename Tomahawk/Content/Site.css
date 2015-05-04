@@ -107,6 +107,7 @@ ul.message-list {
 
 .logo:hover {
     cursor: pointer;
+    text-decoration: none;
 }
 
 .highlight {
