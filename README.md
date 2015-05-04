@@ -3,7 +3,7 @@
 A Twitter clone.
 
 ### Minimum Features
-    - [x] C#
+    - :white_check_mark: C#
     - [x] MVC
     - [x] User Accounts
     - [x] Users can post 140 characters of whatever they like
