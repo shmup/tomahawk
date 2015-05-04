@@ -9,6 +9,7 @@ $(document).ready(function () {
         self.isOpen = ko.observable(false)
         self.message = ko.observable("")
         self.canSend = ko.observable(true)
+        self.details = ko.observable()
         self.replies = ko.observableArray([])
 
         self.getCharacterCount = ko.computed(function () {
@@ -30,11 +31,11 @@ $(document).ready(function () {
 
         self.sendMessage = function (data) {
             $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
-                self.isOpen(false)
-
                 if (result.success) {
+                    self.isOpen(false)
                     var msg = message(result)
-                    self.messages.push(msg)
+                    self.messages.unshift(msg)
+                    self.message("")
                 }
             })
         }
@@ -46,7 +47,7 @@ $(document).ready(function () {
                 __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
             $.post("/Messages/Delete", data, function (result) {
-                if (result.status) {
+                if (result.success) {
                     self.messages.remove(message)
                 } else {
                     alert("Nice try buddy")
@@ -68,9 +69,23 @@ $(document).ready(function () {
             })
         }
 
+        self.test = function() {
+            debugger
+        }
+
         self.loadDetails = function() {
             var id = self.id()
             var name = self.name()
+
+            $.get("/Messages/Details/" + id, function (result) {
+                if (result.success) {
+                    self.details(result.message)
+                    self.replies(result.replies)
+                } else {
+                    // TODO - this doesnt adjust the URL. figure out how to go back to start the right way
+                    pager.goTo("start")
+                }
+            })
         }
     }
 
@@ -78,7 +93,7 @@ $(document).ready(function () {
 
     pager.extendWithPage(viewModel)
 
-    ko.applyBindings(viewModel, document.getElementById("wrapper"))
+    ko.applyBindings(viewModel, document.getElementById("wrapper"));
 
     pager.start()
 
@@ -86,22 +101,21 @@ $(document).ready(function () {
         if (typeof data === "object") {
             viewModel.messages(data)
         }
-        //viewModel.createComment({text: "pickle", message_id: 1})
     })
 })
 
 var message = function (data) {
     return {
-        id: data.ID,
-        text: data.Text,
-        name: data.User.UserName
+        id: data.id,
+        text: data.text,
+        name: data.name
     }
 }
 
 var reply = function (data) {
     return {
-        id: data.ID,
-        text: data.Text,
-        name: data.User.UserName
+        id: data.id,
+        text: data.text,
+        name: data.name
     }
 }

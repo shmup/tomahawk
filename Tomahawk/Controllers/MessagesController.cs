@@ -38,7 +38,7 @@ namespace Tomahawk.Controllers
         {
             // This is a clever way to avoid circular references with JSON serialization
             // source: http://blog.davebouwman.com/2011/12/08/handling-circular-references-asp-net-mvc-json-serialization/
-            var messages = await db.Messages.ToListAsync();
+            var messages = await db.Messages.OrderByDescending(m => m.ID).ToListAsync();
             var result = messages.Select(x => new
             {
                 id = x.ID,
@@ -56,7 +56,7 @@ namespace Tomahawk.Controllers
             if (id == null)
             {
                 return Json(new {
-                    status = false,
+                    success = false,
                     message = "Missing the ID"
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -64,7 +64,7 @@ namespace Tomahawk.Controllers
             if (message == null)
             {
                 return Json(new {
-                    status = false,
+                    success = false,
                     message = "Message does not exist with that ID"
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -77,10 +77,13 @@ namespace Tomahawk.Controllers
 
             var result = new
                 {
-                    id = message.ID,
-                    text = message.Text,
-                    name = message.User.UserName,
                     success = true,
+                    message = new
+                    {
+                        id = message.ID,
+                        text = message.Text,
+                        name = message.User.UserName,
+                    },
                     replies = replies
                 };
 
@@ -109,7 +112,7 @@ namespace Tomahawk.Controllers
 
                 return Json(new
                 {
-                    status = true,
+                    success = true,
                     id = message.ID,
                     text = message.Text,
                     name = message.User.UserName
@@ -118,7 +121,7 @@ namespace Tomahawk.Controllers
 
             return Json(new
             {
-                status = false
+                success = false
             });
         }
 
@@ -154,7 +157,7 @@ namespace Tomahawk.Controllers
             {
                 return Json(new
                 {
-                    status = false,
+                    success = false,
                     message = "You are not authorized"
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -164,7 +167,7 @@ namespace Tomahawk.Controllers
 
             return Json(new
             {
-                status = true
+                success = true
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -184,13 +187,13 @@ namespace Tomahawk.Controllers
 
                 return Json(new
                 {
-                    status = true
+                    success = true
                 }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new
             {
-                status = false
+                success = false
             }, JsonRequestBehavior.AllowGet);
         }
 
