@@ -27,7 +27,7 @@ A Twitter clone.
 
 :white_medium_square: [Unit Tests](https://github.com/shmup/tomahawk/issues/6)
 
-### Seed Data
+## Seed Data
 
 The database is seeded with a few users, messages and replies.
 
