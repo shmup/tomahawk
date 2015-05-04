@@ -7,7 +7,7 @@
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
             <li>
-                <div class="message form-actions" data-bind="attr: {id: 'message_' + id}">
+                <div class="message form-actions" data-bind="attr: {id: 'message_' + id}, css: { own: $root.username == name }">
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
@@ -44,7 +44,7 @@
         <!-- /ko -->
         <ul data-bind="foreach: replies">
             <li>
-                    <div class="reply" data-bind="attr: {id: 'reply_' + id}">
+                    <div class="reply" data-bind="attr: {id: 'reply_' + id}, css: { own: $root.username == name }">
                         <input type="hidden" data-bind="value: id" />
                         <div class="reply-header">
                             <span data-bind="text: name"></span>

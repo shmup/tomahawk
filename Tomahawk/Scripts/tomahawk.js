@@ -138,6 +138,7 @@
             var id = self.id()
             var name = self.name()
 
+            self.replies([])
 
             self.spinner.spin()
 

@@ -49,10 +49,21 @@ textarea {
 }
 
 .message-footer a, .reply-footer a {
-    background: #DADADA;
-    padding: 2px;
+    padding: 4px 6px 2px 6px;
 }
 
+.message-footer a {
+    background: #DADADA;
+}
+
+.reply-footer a {
+    background: #D2CE7D;
+    color: black;
+}
+
+.own .message-footer a, .own .reply-footer a {
+    padding: 4px 6px 2px 6px;
+}
 .message-header, .reply-header {
     margin-bottom: 10px;
     font-weight: bold;
@@ -90,6 +101,17 @@ ul.message-list {
 }
 
 .highlight {
-    background: #F7F778; /* IE */
+    background: #F7F778; /* IE 
+    */
     background: rgba(255, 255, 0, 0.5); /* Everyone else */
+}
+
+.message.own {
+    background: #E4E4E4;
+    border-top: 1px solid #ACACAC;
+}
+
+.reply.own {
+    background: #DFDCA2;
+    border-top: 1px solid #ACACAC;
 }
