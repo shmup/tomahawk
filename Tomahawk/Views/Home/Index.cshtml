@@ -1,8 +1,8 @@
 ﻿@Html.Hidden("authorized", @User.Identity.IsAuthenticated.ToString().ToLower())
 
 <div data-bind="page: {id: 'start', afterShow: cleanUp}">
-    <div class="row" data-bind="visible: loggedIn()">
-        <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen" type="button" class="btn btn-default">New Message</button>
+    <div class="row">
+        <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">New Message</button>
     </div>
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
@@ -24,9 +24,9 @@
 </div>
 
 <div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails}">
-    <div class="row" data-bind="visible: loggedIn()">
+    <div class="row">
         <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
-</div>
+    </div>
     <div class="row">
         <!-- ko if: $root.details -->
         <!-- ko with: $root.details -->
