@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     var vm = function () {
         var self = this
-        self.loggedIn = ko.observable(false);
+        self.loggedIn = ko.observable(false)
 
         if ($("#authorized").length) {
             self.loggedIn(JSON.parse($("#authorized").val()))
@@ -10,7 +10,7 @@
         self.messages = ko.observableArray([])
         self.details = ko.observable()
         self.replies = ko.observableArray([])
-
+        self.spinner = newSpinner()
         self.messageIsOpen = ko.observable(false)
         self.replyIsOpen = ko.observable(false)
         self.canSend = ko.observable(true)
@@ -84,6 +84,19 @@
             })
         }
 
+        self.spinnerLoader = function(page, element) {
+            var loader = {};
+            var txt = $('<img src="http://pagerjs.com/demo/ajax-loader.gif"/>');
+            loader.load = function () {
+                $(element).empty();
+                $(element).append(txt);
+            };
+            loader.unload = function () {
+                txt.remove();
+                };
+            return loader;
+        }
+
         self.sendReply = function () {
             var data = {
                 Text: self.messageText(),
@@ -111,8 +124,12 @@
             var id = self.id()
             var name = self.name()
 
+
+            self.spinner.spin()
+
             $.get("/Messages/Details/" + id, function (result) {
                 if (result.success) {
+                    self.spinner.stop()
                     self.details(result.message)
                     self.replies(result.replies)
                     if (typeof self.reply() !== "undefined") {
@@ -135,9 +152,12 @@
 
     pager.start()
 
+    $(".body-content").append(viewModel.spinner.el);
+
     $.getJSON("/Messages/All", function (data) {
         if (typeof data === "object") {
             viewModel.messages(data)
+            viewModel.spinner.stop()
         }
     })
 })
@@ -156,4 +176,26 @@ var reply = function (data) {
         text: data.text,
         name: data.name
     }
+}
+
+var newSpinner = function () {
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 20, // The length of each line
+        width: 10, // The line thickness
+        radius: 30, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: '50%', // Top position relative to parent
+        left: '50%' // Left position relative to parent
+    };
+    return new Spinner(opts).spin();
 }

@@ -1,23 +1,22 @@
 ﻿@Html.Hidden("authorized", @User.Identity.IsAuthenticated.ToString().ToLower())
 
-<div class="row" data-bind="visible: loggedIn()">
-    <button data-bind="click: openMessage, disable: messageIsOpen" type="button" class="btn btn-default">New Message</button>
-</div>
-
 <div data-bind="page: {id: 'start', afterShow: cleanUp}">
+    <div class="row" data-bind="visible: loggedIn()">
+        <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen" type="button" class="btn btn-default">New Message</button>
+    </div>
     <div class="row">
-        <ul data-bind="foreach: messages">
+        <ul class="message-list" data-bind="foreach: messages">
             <li>
-                <div class="message" data-bind="attr: {id: 'message_' + id}">
+                <div class="message form-actions" data-bind="attr: {id: 'message_' + id}">
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer" data-bind="visible: $root.loggedIn()">
-                        <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="page-href: {path: '../details', params: {name: name, id: id, reply: 'true'}}">Reply</span></a> 
+                        <a data-bind="click: $root.deleteMessage" class="delete " href="#">Delete</a> <a data-bind="page-href: {path: '../details', params: {name: name, id: id, reply: 'true'}}">Reply</span></a>
                     </div>
-                    <br style="clear: both"/>
+                    <br style="clear: both" />
                 </div>
             </li>
         </ul>
@@ -25,43 +24,47 @@
 </div>
 
 <div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails}">
-    <a data-bind="page-href: '../start'">Back to messages</a>
-    <!-- ko if: $root.details -->
-    <!-- ko with: $root.details -->
-    <div class="message" data-bind="attr: {id: 'message_' + id}">
-        <input type="hidden" data-bind="value: id" />
-        <div class="message-header">
-            <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
+    <div class="row" data-bind="visible: loggedIn()">
+        <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
+</div>
+    <div class="row">
+        <!-- ko if: $root.details -->
+        <!-- ko with: $root.details -->
+        <div class="message" data-bind="attr: {id: 'message_' + id}">
+            <input type="hidden" data-bind="value: id" />
+            <div class="message-header">
+                <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
+            </div>
+            <div class="user-text" data-bind="text: text"></div>
+            <div class="message-footer" data-bind="visible: $root.loggedIn()">
+                <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
+            </div>
+            <br style="clear: both"/>
         </div>
-        <div class="user-text" data-bind="text: text"></div>
-        <div class="message-footer" data-bind="visible: $root.loggedIn()">
-            <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
-        </div>
-        <br style="clear: both"/>
+        <!-- /ko -->
+        <ul data-bind="foreach: replies">
+            <li>
+                    <div class="reply" data-bind="attr: {id: 'reply_' + id}">
+                        <input type="hidden" data-bind="value: id" />
+                        <div class="reply-header">
+                            <span data-bind="text: name"></span>
+                        </div>
+                        <div class="user-text" data-bind="text: text"></div>
+                        <div class="reply-footer" data-bind="visible: $root.loggedIn()">
+                            <a data-bind="click: $root.deleteReply" class="delete "href="#">Delete</a>
+                        </div>
+                        <br style="clear: both"/>
+                    </div>
+            </li>
+        </ul>
+        <!-- /ko -->
     </div>
-    <!-- /ko -->
-    <ul data-bind="foreach: replies">
-        <li>
-                <div class="reply" data-bind="attr: {id: 'reply_' + id}">
-                    <input type="hidden" data-bind="value: id" />
-                    <div class="reply-header">
-                        <span data-bind="text: name"></span>
-                    </div>
-                    <div class="user-text" data-bind="text: text"></div>
-                    <div class="reply-footer" data-bind="visible: $root.loggedIn()">
-                        <a data-bind="click: $root.deleteReply" class="delete "href="#">Delete</a>
-                    </div>
-                    <br style="clear: both"/>
-                </div>
-        </li>
-    </ul>
-    <!-- /ko -->
 </div>
 
 <div class="new-message" data-bind="dialog: { isOpen: messageIsOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
-        <button data-bind="enable: canSend(), click: sendMessage">Send</button>
+        <button class="btn btn-default" data-bind="enable: canSend(), click: sendMessage">Send</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
@@ -69,7 +72,7 @@
 <div class="new-reply" data-bind="dialog: { isOpen: replyIsOpen, title: 'New Reply', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
-        <button data-bind="enable: canSend(), click: sendReply">Send</button>
+        <button class="btn btn-default" data-bind="enable: canSend(), click: sendReply">Send</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
