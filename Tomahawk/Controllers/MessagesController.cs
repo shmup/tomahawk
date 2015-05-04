@@ -178,10 +178,10 @@ namespace Tomahawk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> ReplyCreate(int? Parent_ID, [Bind(Include = "ID,Text")] Reply reply)
         {
-            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
-            Message message = await db.Messages.FindAsync(Parent_ID);
-            if (ModelState.IsValid)
+            try
             {
+                var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+                Message message = await db.Messages.FindAsync(Parent_ID);
                 reply.Parent = message;
                 reply.User = currentUser;
                 db.Replies.Add(reply);
@@ -191,10 +191,13 @@ namespace Tomahawk.Controllers
                     success = true
                 }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new
+            catch
             {
-                success = false
-            }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    success = false
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
