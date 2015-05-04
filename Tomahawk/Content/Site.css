@@ -45,3 +45,19 @@ textarea {
     right: 2px;
     bottom: 0px;
 }
+
+.reply {
+    width: 450px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #F0F6E7;
+    margin-bottom: 5px; 
+    position: relative;
+}
+
+.reply-footer {
+    position: absolute;
+    right: 2px;
+    bottom: 0px;
+}

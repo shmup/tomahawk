@@ -1,7 +1,4 @@
-﻿function init() {
-}
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     var vm = function () {
         var self = this
 
@@ -13,11 +10,11 @@ $(document).ready(function () {
         self.replyIsOpen = ko.observable(false)
         self.canSend = ko.observable(true)
 
-        self.message = ko.observable("")
+        self.messageText = ko.observable("")
 
         self.getCharacterCount = ko.computed(function () {
             var limit = 140,
-                count = self.message().length
+                count = self.messageText().length
 
             if (count > limit) {
                 self.canSend(false)
@@ -29,23 +26,31 @@ $(document).ready(function () {
         })
 
         self.openMessage = function () {
+            self.replyIsOpen(false)
+            self.messageText("")
             self.messageIsOpen(true)
         }
 
         self.openReply = function () {
+            self.messageIsOpen(false)
+            self.messageText("")
             self.replyData = this
             self.replyIsOpen(true)
         }
 
         self.sendMessage = function (data) {
-            $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
+            $.post("/Messages/Create", { Text: data.messageText(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 if (result.success) {
                     self.messageIsOpen(false)
                     var msg = message(result)
                     self.messages.unshift(msg)
-                    self.message("")
+                    self.messageText("")
                 }
             })
+        }
+
+        self.deleteReply = function () {
+
         }
 
         self.deleteMessage = function () {
@@ -64,17 +69,19 @@ $(document).ready(function () {
         }
 
         self.sendReply = function () {
-            debugger
             var data = {
-                Text: self.replyData.text,
+                Text: self.message(),
                 Parent_ID: self.replyData.id,
                 __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
             $.post("/Messages/ReplyCreate", data, function (result) {
                 if (result.success) {
                     self.replyIsOpen(false)
-                    var reply = reply(result)
-                }
+                    self.replies.push(reply(result))
+                    $('html, body').animate({
+                        scrollTop: $("#reply_" + result.id).offset().top
+                        }, 1000);
+                    }
             })
         }
 

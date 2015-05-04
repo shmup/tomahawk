@@ -40,14 +40,24 @@
     <!-- /ko -->
     <ul data-bind="foreach: replies">
         <li>
-            <span data-bind="text: name"></span>
+                <div class="reply" data-bind="attr: {id: 'reply_' + id}">
+                    <input type="hidden" data-bind="value: id" />
+                    <div class="reply-header">
+                        <span data-bind="text: name"></span>
+                    </div>
+                    <div data-bind="text: text"></div>
+                    <div class="reply-footer">
+                        <a data-bind="click: $root.deleteReply" class="delete "href="#">Delete</a>
+                    </div>
+                    <br style="clear: both"/>
+                </div>
         </li>
     </ul>
     <!-- /ko -->
 </div>
 
 <div class="new-message" data-bind="dialog: { isOpen: messageIsOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
-    <textarea data-bind="value: message, valueUpdate: 'input'"></textarea>
+    <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
         <button data-bind="enable: canSend(), click: sendMessage">Send</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
@@ -55,7 +65,7 @@
 </div>
 
 <div class="new-reply" data-bind="dialog: { isOpen: replyIsOpen, title: 'New Reply', minWidth: 400, minHeight: 200 }">
-    <textarea data-bind="value: message, valueUpdate: 'input'"></textarea>
+    <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
         <button data-bind="enable: canSend(), click: sendReply">Send</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>

@@ -186,9 +186,13 @@ namespace Tomahawk.Controllers
                 reply.User = currentUser;
                 db.Replies.Add(reply);
                 await db.SaveChangesAsync();
+
                 return Json(new
                 {
-                    success = true
+                    success = true,
+                    id = reply.ID,
+                    text = reply.Text,
+                    name = reply.User.UserName
                 }, JsonRequestBehavior.AllowGet);
             }
             catch
