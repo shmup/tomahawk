@@ -2,7 +2,7 @@
 
 <div data-bind="page: {id: 'start', afterShow: cleanUp}">
     <div class="row">
-        <a class="logo" data-bind="page-href: '../start'">Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">New Message</button>
+        <a class="logo" data-bind="click: cleanUp">Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">New Message</button>
     </div>
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
