@@ -18,7 +18,7 @@ A Twitter clone.
 ### Extras
 :white_check_mark: JQuery
 
-:white_medium_square: Hash tags
+:white_medium_square: [Hash tags](https://github.com/shmup/tomahawk/issues/7)
  
 ### Extra extras
 :white_check_mark: Knockout.js
