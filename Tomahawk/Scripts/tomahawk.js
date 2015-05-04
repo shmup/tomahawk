@@ -50,7 +50,18 @@
         }
 
         self.deleteReply = function () {
-
+            var reply = this;
+            var data = {
+                id: reply.id,
+                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
+            }
+            $.post("/Messages/ReplyDelete", data, function (result) {
+                if (result.success) {
+                    self.replies.remove(reply)
+                } else {
+                    alert("Nice try buddy")
+                }
+            })
         }
 
         self.deleteMessage = function () {
@@ -70,7 +81,7 @@
 
         self.sendReply = function () {
             var data = {
-                Text: self.message(),
+                Text: self.messageText(),
                 Parent_ID: self.replyData.id,
                 __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
@@ -83,10 +94,6 @@
                         }, 1000);
                     }
             })
-        }
-
-        self.test = function() {
-            debugger
         }
 
         self.loadDetails = function() {

@@ -204,6 +204,31 @@ namespace Tomahawk.Controllers
             }
         }
 
+        // POST: Messages/ReplyDelete/5
+        [HttpPost, ActionName("ReplyDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> ReplyDeleteConfirmed(int id)
+        {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+            Reply reply = await db.Replies.FindAsync(id);
+
+            if (reply.User.Id != currentUser.Id)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "You are not authorized"
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            db.Replies.Remove(reply);
+            await db.SaveChangesAsync();
+
+            return Json(new
+            {
+                success = true
+            }, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {
