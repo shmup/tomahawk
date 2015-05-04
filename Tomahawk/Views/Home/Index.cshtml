@@ -4,7 +4,7 @@
     <button data-bind="click: openMessage, disable: messageIsOpen" type="button" class="btn btn-default">New Message</button>
 </div>
 
-<div data-bind="page: {id: 'start'}">
+<div data-bind="page: {id: 'start', afterShow: cleanUp}">
     <div class="row">
         <ul data-bind="foreach: messages">
             <li>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer" data-bind="visible: $root.loggedIn()">
-                        <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
+                        <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="page-href: {path: '../details', params: {name: name, id: id, reply: 'true'}}">Reply</span></a> 
                     </div>
                     <br style="clear: both"/>
                 </div>
@@ -24,8 +24,8 @@
     </div>
 </div>
 
-<div data-bind="page: {id: 'details', params: ['name','id'], afterShow: loadDetails}">
-    <a data-bind="page-href: '../start'">start</a>
+<div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails}">
+    <a data-bind="page-href: '../start'">Back to messages</a>
     <!-- ko if: $root.details -->
     <!-- ko with: $root.details -->
     <div class="message" data-bind="attr: {id: 'message_' + id}">
@@ -35,7 +35,7 @@
         </div>
         <div class="user-text" data-bind="text: text"></div>
         <div class="message-footer" data-bind="visible: $root.loggedIn()">
-            <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen"href="#">Reply</a>
+            <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
         </div>
         <br style="clear: both"/>
     </div>

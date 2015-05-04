@@ -36,7 +36,7 @@
             self.messageIsOpen(true)
         }
 
-        self.openReply = function () {
+        self.openReply = function (cool) {
             self.messageIsOpen(false)
             self.messageText("")
             self.replyData = this
@@ -101,6 +101,12 @@
             })
         }
 
+        self.cleanUp = function() {
+            self.messageIsOpen(false)
+            self.replyIsOpen(false)
+            self.messageText("")
+        }
+
         self.loadDetails = function() {
             var id = self.id()
             var name = self.name()
@@ -109,6 +115,10 @@
                 if (result.success) {
                     self.details(result.message)
                     self.replies(result.replies)
+                    if (typeof self.reply() !== "undefined") {
+                        self.openReply()
+                        $(".new-reply textarea").focus()
+                    }
                 } else {
                     // TODO - this doesnt adjust the URL. figure out how to go back to start the right way
                     pager.goTo("start")
