@@ -126,7 +126,15 @@
 
             self.spinner.spin()
 
-            $.getJSON("/Messages/All", function (data) {
+            var data = {}
+            var url = "/Messages/All";
+
+            if (typeof self.nick() !== "undefined" && location.hash.indexOf("#start") < 0) {
+                url = "/Messages/UserAll"
+                data["user"] = self.nick()
+            }
+
+            $.getJSON(url, data, function (data) {
                 if (typeof data === "object") {
                     self.messages(data)
                     self.spinner.stop()
@@ -168,13 +176,6 @@
     pager.start()
 
     $(".body-content").append(viewModel.spinner.el);
-
-    $.getJSON("/Messages/All", function (data) {
-        if (typeof data === "object") {
-            viewModel.messages(data)
-            viewModel.spinner.stop()
-        }
-    })
 })
 
 var message = function (data) {

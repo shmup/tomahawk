@@ -139,3 +139,11 @@ body {
 .user-text:hover {
     cursor: pointer;
 }
+
+a.replies {
+    font-weight: normal;
+    color: gray;
+    position: absolute;
+    top: 5px;
+    right: 8px;
+}

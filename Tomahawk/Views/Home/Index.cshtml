@@ -10,7 +10,33 @@
                 <div class="message form-actions" data-bind="attr: {id: 'message_' + id}, css: { own: $root.username == name }">
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
-                        <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
+                        <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
+@*                        <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>*@
+                        <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}">replies</a>
+                    </div>
+                    <div class="user-text" data-bind="text: text"></div>
+                    <div class="message-footer" data-bind="visible: $root.loggedIn()">
+                        <a data-bind="click: $root.deleteMessage, visible: (name == $root.username)" class="delete " href="#">Delete</a> <a data-bind="page-href: {path: '../details', params: {name: name, id: id, reply: 'true'}}">Reply</span></a>
+                    </div>
+                    <br style="clear: both" />
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div data-bind="page: {id: 'user', params: ['nick'], afterShow: cleanUp}" class="well-small">
+    <div class="row">
+        <a class="logo" data-bind="page-href: '../start'"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
+    </div>
+    <div class="row">
+        <ul class="message-list" data-bind="foreach: messages">
+            <li>
+                <div class="message form-actions" data-bind="attr: {id: 'message_' + id}, css: { own: $root.username == name }">
+                    <input type="hidden" data-bind="value: id" />
+                    <div class="message-header">
+                        <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
+                        <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}">replies</a>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer" data-bind="visible: $root.loggedIn()">
@@ -33,28 +59,28 @@
         <div class="message" data-bind="attr: {id: 'message_' + id}">
             <input type="hidden" data-bind="value: id" />
             <div class="message-header">
-                <a data-bind="click: $root.loadDetails">@@<span data-bind="text: name"></span></a>
+                <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a>
             </div>
             <div class="user-text" data-bind="text: text"></div>
             <div class="message-footer" data-bind="visible: $root.loggedIn()">
-                <a data-bind="click: $root.deleteMessage, visible: (name == $root.username)" class="delete "href="#">Delete</a> <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
+                <a data-bind="click: $root.deleteMessage, visible: (name == $root.username)" class="delete " href="#">Delete</a> <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
             </div>
-            <br style="clear: both"/>
+            <br style="clear: both" />
         </div>
         <!-- /ko -->
         <ul data-bind="foreach: replies">
             <li>
-                    <div class="reply" data-bind="attr: {id: 'reply_' + id}, css: { own: $root.username == name }">
-                        <input type="hidden" data-bind="value: id" />
-                        <div class="reply-header">
-                            <span data-bind="text: name"></span>
-                        </div>
-                        <div class="user-text" data-bind="text: text"></div>
-                        <div class="reply-footer" data-bind="visible: $root.loggedIn()">
-                            <a data-bind="click: $root.deleteReply, visible: (name == $root.username)" class="delete "href="#">Delete</a>
-                        </div>
-                        <br style="clear: both"/>
+                <div class="reply" data-bind="attr: {id: 'reply_' + id}, css: { own: $root.username == name }">
+                    <input type="hidden" data-bind="value: id" />
+                    <div class="reply-header">
+                        <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
                     </div>
+                    <div class="user-text" data-bind="text: text"></div>
+                    <div class="reply-footer" data-bind="visible: $root.loggedIn()">
+                        <a data-bind="click: $root.deleteReply, visible: (name == $root.username)" class="delete " href="#">Delete</a>
+                    </div>
+                    <br style="clear: both" />
+                </div>
             </li>
         </ul>
         <!-- /ko -->
