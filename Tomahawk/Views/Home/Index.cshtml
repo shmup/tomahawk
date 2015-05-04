@@ -33,7 +33,7 @@
         <div class="message" data-bind="attr: {id: 'message_' + id}">
             <input type="hidden" data-bind="value: id" />
             <div class="message-header">
-                <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
+                <a data-bind="click: $root.loadDetails">@@<span data-bind="text: name"></span></a>
             </div>
             <div class="user-text" data-bind="text: text"></div>
             <div class="message-footer" data-bind="visible: $root.loggedIn()">
