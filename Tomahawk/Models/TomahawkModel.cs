@@ -29,6 +29,7 @@ namespace Tomahawk.Models
         [MinLength(1)]
         [MaxLength(140)]
         public string Text { get; set; }
+        public virtual MyUser User { get; set; }
         public virtual Message Parent { get; set; }
     }
 
