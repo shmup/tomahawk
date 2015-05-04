@@ -38,15 +38,15 @@ namespace Tomahawk.Controllers
         {
             // This is a clever way to avoid circular references with JSON serialization
             // source: http://blog.davebouwman.com/2011/12/08/handling-circular-references-asp-net-mvc-json-serialization/
-            var data = await db.Messages.ToListAsync();
-            var collection = data.Select(x => new
+            var messages = await db.Messages.ToListAsync();
+            var result = messages.Select(x => new
             {
                 id = x.ID,
                 text = x.Text,
                 name = x.User.UserName
             });
 
-            return Json(collection, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Messages/Details/5
@@ -55,31 +55,36 @@ namespace Tomahawk.Controllers
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (id == null)
             {
-                return Json(new Dictionary<string, bool> {
-                    { "status", false }
-                });
+                return Json(new {
+                    status = false,
+                    message = "Missing the ID"
+                }, JsonRequestBehavior.AllowGet);
             }
             Message message = await db.Messages.FindAsync(id);
             if (message == null)
             {
-                return Json(new Dictionary<string, bool> {
-                    { "status", false }
-                });
-            }
-            if (message.User.Id != currentUser.Id)
-            {
-                return Json(new Dictionary<string, bool> {
-                    { "status", false }
-                });
+                return Json(new {
+                    status = false,
+                    message = "Message does not exist with that ID"
+                }, JsonRequestBehavior.AllowGet);
             }
 
-            var json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings()
+            var replies = message.Replies.Select(r => new
             {
-                Formatting = Formatting.Indented,
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                id = r.ID,
+                text = r.Text,
             });
 
-            return Json(json, JsonRequestBehavior.AllowGet);
+            var result = new
+                {
+                    id = message.ID,
+                    text = message.Text,
+                    name = message.User.UserName,
+                    success = true,
+                    replies = replies
+                };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Messages/Create
@@ -102,50 +107,19 @@ namespace Tomahawk.Controllers
                 db.Messages.Add(message);
                 await db.SaveChangesAsync();
 
-                var json = JsonConvert.SerializeObject(message, new JsonSerializerSettings()
+                return Json(new
                 {
-                    Formatting = Formatting.Indented,
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                });
-
-                return Json(json, JsonRequestBehavior.AllowGet);
+                    status = true,
+                    id = message.ID,
+                    text = message.Text,
+                    name = message.User.UserName
+                }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new Dictionary<string, bool> {
-                { "status", false }
+            return Json(new
+            {
+                status = false
             });
-        }
-
-        // GET: Messages/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Message message = db.Messages.Find(id);
-            if (message == null)
-            {
-                return HttpNotFound();
-            }
-            return View(message);
-        }
-
-        // POST: Messages/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Text")] Message message)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(message).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(message);
         }
 
         // GET: Messages/Delete/5
@@ -178,16 +152,20 @@ namespace Tomahawk.Controllers
 
             if (message.User.Id != currentUser.Id)
             {
-                return Json(new Dictionary<string, bool> {
-                    { "status", false }
-                });
+                return Json(new
+                {
+                    status = false,
+                    message = "You are not authorized"
+                }, JsonRequestBehavior.AllowGet);
             }
 
             db.Messages.Remove(message);
             await db.SaveChangesAsync();
-            return Json(new Dictionary<string, bool> {
-                { "status", true }
-            });
+
+            return Json(new
+            {
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Replies/Create
@@ -204,18 +182,16 @@ namespace Tomahawk.Controllers
                 db.Replies.Add(reply);
                 await db.SaveChangesAsync();
 
-                var json = JsonConvert.SerializeObject(reply, new JsonSerializerSettings()
+                return Json(new
                 {
-                    Formatting = Formatting.Indented,
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                });
-
-                return Json(json, JsonRequestBehavior.AllowGet);
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new Dictionary<string, bool> {
-                { "status", false }
-            });
+            return Json(new
+            {
+                status = false
+            }, JsonRequestBehavior.AllowGet);
         }
 
 

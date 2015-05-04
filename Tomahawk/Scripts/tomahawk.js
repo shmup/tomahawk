@@ -32,13 +32,10 @@ $(document).ready(function () {
             $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 self.isOpen(false)
 
-                if (typeof result === "string") {
-                    result = JSON.parse(result)
+                if (result.success) {
+                    var msg = message(result)
+                    self.messages.push(msg)
                 }
-
-                var msg = message(result)
-
-                self.messages.push(msg)
             })
         }
 
@@ -65,11 +62,9 @@ $(document).ready(function () {
                 __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
             $.post("/Messages/ReplyCreate", data, function (result) {
-                if (typeof result === "string") {
-                    result = JSON.parse(result)
+                if (result.success) {
+                    var reply = reply(result)
                 }
-
-                var reply = reply(result)
             })
         }
 
@@ -88,8 +83,10 @@ $(document).ready(function () {
     pager.start()
 
     $.getJSON("/Messages/All", function (data) {
-        viewModel.messages(data)
-    //viewModel.createComment({text: "pickle", message_id: 1})
+        if (typeof data === "object") {
+            viewModel.messages(data)
+        }
+        //viewModel.createComment({text: "pickle", message_id: 1})
     })
 })
 
