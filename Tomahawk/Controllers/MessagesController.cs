@@ -72,6 +72,7 @@ namespace Tomahawk.Controllers
             var replies = message.Replies.Select(r => new
             {
                 id = r.ID,
+                name = r.User.UserName,
                 text = r.Text,
             });
 
@@ -182,15 +183,14 @@ namespace Tomahawk.Controllers
             if (ModelState.IsValid)
             {
                 reply.Parent = message;
+                reply.User = currentUser;
                 db.Replies.Add(reply);
                 await db.SaveChangesAsync();
-
                 return Json(new
                 {
                     success = true
                 }, JsonRequestBehavior.AllowGet);
             }
-
             return Json(new
             {
                 success = false

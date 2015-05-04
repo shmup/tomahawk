@@ -6,11 +6,14 @@ $(document).ready(function () {
         var self = this
 
         self.messages = ko.observableArray([])
-        self.isOpen = ko.observable(false)
-        self.message = ko.observable("")
-        self.canSend = ko.observable(true)
         self.details = ko.observable()
         self.replies = ko.observableArray([])
+
+        self.messageIsOpen = ko.observable(false)
+        self.replyIsOpen = ko.observable(false)
+        self.canSend = ko.observable(true)
+
+        self.message = ko.observable("")
 
         self.getCharacterCount = ko.computed(function () {
             var limit = 140,
@@ -26,13 +29,18 @@ $(document).ready(function () {
         })
 
         self.openMessage = function () {
-            self.isOpen(true)
+            self.messageIsOpen(true)
+        }
+
+        self.openReply = function () {
+            self.replyData = this
+            self.replyIsOpen(true)
         }
 
         self.sendMessage = function (data) {
             $.post("/Messages/Create", { Text: data.message(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 if (result.success) {
-                    self.isOpen(false)
+                    self.messageIsOpen(false)
                     var msg = message(result)
                     self.messages.unshift(msg)
                     self.message("")
@@ -55,15 +63,16 @@ $(document).ready(function () {
             })
         }
 
-        self.createComment = function (comment) {
-            var reply = this;
+        self.sendReply = function () {
+            debugger
             var data = {
-                Text: comment.text,
-                Parent_ID: comment.message_id,
+                Text: self.replyData.text,
+                Parent_ID: self.replyData.id,
                 __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
             }
             $.post("/Messages/ReplyCreate", data, function (result) {
                 if (result.success) {
+                    self.replyIsOpen(false)
                     var reply = reply(result)
                 }
             })

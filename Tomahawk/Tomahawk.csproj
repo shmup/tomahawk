@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201505032313194_replies in message.Designer.cs">
       <DependentUpon>201505032313194_replies in message.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505040208502_user in replies.cs" />
+    <Compile Include="Migrations\201505040208502_user in replies.Designer.cs">
+      <DependentUpon>201505040208502_user in replies.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -327,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505032313194_replies in message.resx">
       <DependentUpon>201505032313194_replies in message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505040208502_user in replies.resx">
+      <DependentUpon>201505040208502_user in replies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

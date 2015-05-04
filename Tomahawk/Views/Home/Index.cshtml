@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <button data-bind="click: openMessage, disable: isOpen" type="button" class="btn btn-default">New Message</button>
+    <button data-bind="click: openMessage, disable: messageIsOpen" type="button" class="btn btn-default">New Message</button>
 </div>
 
 <div data-bind="page: {id: 'start'}">
@@ -13,7 +13,7 @@
                     </div>
                     <div data-bind="text: text"></div>
                     <div class="message-footer">
-                        <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a href="#">Reply</a>
+                        <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
                     </div>
                     <br style="clear: both"/>
                 </div>
@@ -33,7 +33,7 @@
         </div>
         <div data-bind="text: text"></div>
         <div class="message-footer">
-            <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a href="#">Reply</a>
+            <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen"href="#">Reply</a>
         </div>
         <br style="clear: both"/>
     </div>
@@ -46,10 +46,18 @@
     <!-- /ko -->
 </div>
 
-<div class="new-message" data-bind="dialog: { isOpen: isOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
+<div class="new-message" data-bind="dialog: { isOpen: messageIsOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: message, valueUpdate: 'input'"></textarea>
     <div>
         <button data-bind="enable: canSend(), click: sendMessage">Send</button>
+        <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
+    </div>
+</div>
+
+<div class="new-reply" data-bind="dialog: { isOpen: replyIsOpen, title: 'New Reply', minWidth: 400, minHeight: 200 }">
+    <textarea data-bind="value: message, valueUpdate: 'input'"></textarea>
+    <div>
+        <button data-bind="enable: canSend(), click: sendReply">Send</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
