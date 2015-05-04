@@ -2,6 +2,7 @@
     var vm = function () {
         var self = this
 
+        self.loggedIn = ko.observable(JSON.parse($("#authorized").val()));
         self.messages = ko.observableArray([])
         self.details = ko.observable()
         self.replies = ko.observableArray([])

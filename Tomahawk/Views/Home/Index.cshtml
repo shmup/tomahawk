@@ -1,4 +1,6 @@
-﻿<div class="row">
+﻿@Html.Hidden("authorized", @User.Identity.IsAuthenticated.ToString().ToLower())
+
+<div class="row" data-bind="visible: loggedIn()">
     <button data-bind="click: openMessage, disable: messageIsOpen" type="button" class="btn btn-default">New Message</button>
 </div>
 
