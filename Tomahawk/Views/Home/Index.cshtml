@@ -14,7 +14,7 @@
                         <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
-                    <div class="message-footer">
+                    <div class="message-footer" data-bind="visible: $root.loggedIn()">
                         <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen" href="#">Reply</a>
                     </div>
                     <br style="clear: both"/>
@@ -34,7 +34,7 @@
             <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>
         </div>
         <div class="user-text" data-bind="text: text"></div>
-        <div class="message-footer">
+        <div class="message-footer" data-bind="visible: $root.loggedIn()">
             <a data-bind="click: $root.deleteMessage" class="delete "href="#">Delete</a> | <a data-bind="click: $root.openReply, disable: $root.replyIsOpen"href="#">Reply</a>
         </div>
         <br style="clear: both"/>
@@ -48,7 +48,7 @@
                         <span data-bind="text: name"></span>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
-                    <div class="reply-footer">
+                    <div class="reply-footer" data-bind="visible: $root.loggedIn()">
                         <a data-bind="click: $root.deleteReply" class="delete "href="#">Delete</a>
                     </div>
                     <br style="clear: both"/>

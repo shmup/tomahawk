@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 
 namespace Tomahawk.Controllers
 {
-    [Authorize]
     public class MessagesController : Controller
     {
         private TomahawkContext db;
@@ -91,6 +90,7 @@ namespace Tomahawk.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         // GET: Messages/Create
         public ActionResult Create()
         {
@@ -100,6 +100,7 @@ namespace Tomahawk.Controllers
         // POST: Messages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> Create([Bind(Include = "ID,Text")] Message message)
@@ -127,6 +128,7 @@ namespace Tomahawk.Controllers
         }
 
         // GET: Messages/Delete/5
+        [Authorize]
         public async Task<ActionResult> Delete(int? id)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
@@ -149,6 +151,7 @@ namespace Tomahawk.Controllers
         // POST: Messages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<JsonResult> DeleteConfirmed(int id)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
@@ -176,6 +179,7 @@ namespace Tomahawk.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<JsonResult> ReplyCreate(int? Parent_ID, [Bind(Include = "ID,Text")] Reply reply)
         {
             try
@@ -207,6 +211,7 @@ namespace Tomahawk.Controllers
         // POST: Messages/ReplyDelete/5
         [HttpPost, ActionName("ReplyDelete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<JsonResult> ReplyDeleteConfirmed(int id)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());

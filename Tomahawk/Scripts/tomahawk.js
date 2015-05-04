@@ -1,8 +1,12 @@
 ﻿$(document).ready(function () {
     var vm = function () {
         var self = this
+        self.loggedIn = ko.observable(false);
 
-        self.loggedIn = ko.observable(JSON.parse($("#authorized").val()));
+        if ($("#authorized").length) {
+            self.loggedIn(JSON.parse($("#authorized").val()))
+        }
+
         self.messages = ko.observableArray([])
         self.details = ko.observable()
         self.replies = ko.observableArray([])
