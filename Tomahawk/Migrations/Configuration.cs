@@ -25,7 +25,7 @@ namespace Tomahawk.Migrations
                 new MyUser { UserName = "shmup", Email = "shmup@fake.com", PasswordHash = password, SecurityStamp = "fake" },
                 new MyUser { UserName = "eric", Email = "eric@fake.com", PasswordHash = password, SecurityStamp = "fake" },
                 new MyUser { UserName = "jed", Email = "jed@fake.com", PasswordHash = password, SecurityStamp = "fake" },
-                new MyUser { UserName = "burt", Email = "burt@fake.com", PasswordHash = password, SecurityStamp = "fake" }
+                new MyUser { UserName = "carmack", Email = "carmack@id.com", PasswordHash = password, SecurityStamp = "fake" }
             };
 
             users.ForEach(u => context.Users.AddOrUpdate(m => m.Email, u));
@@ -43,12 +43,28 @@ namespace Tomahawk.Migrations
                     User = users.Single(u => u.UserName == "eric"),
                 },
                 new Message {
+                    Text = "Doom is a pretty cool game" ,
+                    User = users.Single(u => u.UserName == "carmack"),
+                },
+                new Message {
                     Text = "Actually.." ,
                     User = users.Single(u => u.UserName == "jed"),
                 },
                 new Message {
-                    Text = "Have you seen Ernie?" ,
-                    User = users.Single(u => u.UserName == "burt"),
+                    Text = "turns out pager.js is really, really cool" ,
+                    User = users.Single(u => u.UserName == "shmup"),
+                },
+                new Message {
+                    Text = "I like gin and euchre" ,
+                    User = users.Single(u => u.UserName == "jed"),
+                },
+                new Message {
+                    Text = "I love playing euchre!" ,
+                    User = users.Single(u => u.UserName == "eric"),
+                },
+                new Message {
+                    Text = "VR is the future" ,
+                    User = users.Single(u => u.UserName == "carmack"),
                 },
             };
 
@@ -72,7 +88,7 @@ namespace Tomahawk.Migrations
                     },
                     new Reply {
                         Text = "Fakest Reply",
-                        User = users.Single(u => u.UserName == "burt"),
+                        User = users.Single(u => u.UserName == "carmack"),
                         Parent = m
                     }
                 };
