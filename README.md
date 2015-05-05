@@ -1,4 +1,4 @@
-# Tomahawk
+# Tomahawk <img src="https://raw.githubusercontent.com/shmup/tomahawk/master/Tomahawk/Content/tomahawk.png">
 
 A Twitter clone.
 
