@@ -23,7 +23,7 @@ A Twitter clone.
 ### Extra extras
 :white_check_mark: Knockout.js
 
-:white_medium_square: [Single Page Application](https://github.com/shmup/tomahawk/issues/5) (mostly complete)
+:white_check_mark: [Single Page Application](https://github.com/shmup/tomahawk/issues/5)
 
 :white_medium_square: [Unit Tests](https://github.com/shmup/tomahawk/issues/6)
 
