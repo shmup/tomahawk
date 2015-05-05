@@ -43,7 +43,7 @@ namespace Tomahawk.Migrations
                     User = users.Single(u => u.UserName == "eric"),
                 },
                 new Message {
-                    Text = "Euchre is not Eric's best card game" ,
+                    Text = "Actually.." ,
                     User = users.Single(u => u.UserName == "jed"),
                 },
                 new Message {
