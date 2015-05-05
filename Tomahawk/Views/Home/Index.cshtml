@@ -2,11 +2,11 @@
 
 <!-- ### MAIN PAGE THAT LISTS EVERYONE'S MESSAGES ### -->
 
-<div data-bind="page: {id: 'start', afterShow: cleanUp}">
+<div data-bind="page: {id: 'start', afterShow: init, beforeHide: clean}">
 
     <!-- ### HEADER ### -->
     <div class="row">
-        <a class="logo" data-bind="click: cleanUp"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">Throw a New Message</button>
+        <a class="logo" data-bind="click: init"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">Throw a New Message</button>
     </div>
 
     <!-- ### MESSAGES ### -->
@@ -18,7 +18,7 @@
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
-                        <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}">replies</a>
+                        <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}"><span data-bind="text: replies"></span> replies</a>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer" data-bind="visible: $root.loggedIn()">
@@ -33,7 +33,7 @@
 
 <!-- ### PAGE THAT LISTS ALL OF A PARTICULAR USER'S MESAGE ### -->
 
-<div data-bind="page: {id: 'user', params: ['nick'], afterShow: cleanUp}" class="well-small">
+<div data-bind="page: {id: 'user', params: ['nick'], afterShow: init, beforeHide: clean}" class="well-small">
 
     <!-- ### HEADER ### -->
     <div class="row">
@@ -49,7 +49,7 @@
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
-                        <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}">replies</a>
+                        <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}"><span data-bind="text: replies"></span> replies</a>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
                     <div class="message-footer" data-bind="visible: $root.loggedIn()">
@@ -64,7 +64,7 @@
 
 <!-- ### DETAILS PAGE FOR A PARTICULAR MESSAGE AND ALL OF IT'S REPLIES ### -->
 
-<div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails}">
+<div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails, beforeHide: clean}">
 
     <!-- ### HEADER ### -->
 

@@ -42,7 +42,8 @@ namespace Tomahawk.Controllers
             {
                 id = x.ID,
                 text = x.Text,
-                name = x.User.UserName
+                name = x.User.UserName,
+                replies = x.Replies.Count()
             });
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -61,7 +62,8 @@ namespace Tomahawk.Controllers
             {
                 id = x.ID,
                 text = x.Text,
-                name = x.User.UserName
+                name = x.User.UserName,
+                replies = x.Replies.Count()
             });
 
             return Json(result, JsonRequestBehavior.AllowGet);

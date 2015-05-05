@@ -120,10 +120,18 @@
             return loader;
         }
 
-        self.cleanUp = function() {
+        // Clean up stuff
+        self.clean = function () {
+            self.replies([])
+            self.messages([])
             self.messageIsOpen(false)
             self.replyIsOpen(false)
             self.messageText("")
+        }
+
+        //  Get list of messages
+        self.init = function() {
+            self.clean()
 
             self.spinner.spin()
 
@@ -183,7 +191,8 @@ var message = function (data) {
     return {
         id: data.id,
         text: data.text,
-        name: data.name
+        name: data.name,
+        replies: 0
     }
 }
 
