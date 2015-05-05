@@ -214,7 +214,7 @@ var newSpinner = function () {
         top: '50%', // Top position relative to parent
         left: '50%' // Left position relative to parent
     };
-    return new Spinner(opts).spin();
+    return new Spinner(opts);
 }
 
 var highlight = function (elem) {
