@@ -2,7 +2,7 @@
 
 <div data-bind="page: {id: 'start', afterShow: cleanUp}">
     <div class="row">
-        <a class="logo" data-bind="click: cleanUp"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">New Message</button>
+        <a class="logo" data-bind="click: cleanUp"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">Throw a New Message</button>
     </div>
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
@@ -32,7 +32,7 @@
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
             <li>
-                <div class="message form-actions" data-bind="attr: {id: 'message_' + id}, css: { own: $root.username == name }">
+                <div class="message form-actions" data-bind="attr: {id: 'message_' + id}">
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
@@ -90,7 +90,7 @@
 <div class="new-message" data-bind="dialog: { isOpen: messageIsOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
-        <button class="btn btn-default" data-bind="enable: canSend(), click: sendMessage">Send</button>
+        <button class="btn btn-default" data-bind="enable: canSend(), click: sendMessage">Throw</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
@@ -98,7 +98,7 @@
 <div class="new-reply" data-bind="dialog: { isOpen: replyIsOpen, title: 'New Reply', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
-        <button class="btn btn-default" data-bind="enable: canSend(), click: sendReply">Send</button>
+        <button class="btn btn-default" data-bind="enable: canSend(), click: sendReply">Throw</button>
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
