@@ -146,8 +146,9 @@
             $.getJSON(url, data, function (data) {
                 if (typeof data === "object") {
                     self.messages(data)
-                    self.spinner.stop()
                 }
+
+                self.spinner.stop()
             })
         }
 
@@ -171,6 +172,7 @@
                 } else {
                     // TODO - this doesnt adjust the URL. figure out how to go back to start the right way
                     pager.goTo("start")
+                    self.spinner.stop()
                 }
             })
         }
