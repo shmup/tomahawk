@@ -1,9 +1,16 @@
 ﻿@Html.Hidden("authorized", @User.Identity.IsAuthenticated.ToString().ToLower())
 
+<!-- ### MAIN PAGE THAT LISTS EVERYONE'S MESSAGES ### -->
+
 <div data-bind="page: {id: 'start', afterShow: cleanUp}">
+
+    <!-- ### HEADER ### -->
     <div class="row">
         <a class="logo" data-bind="click: cleanUp"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <button data-bind="click: openMessage, disable: messageIsOpen, visible: loggedIn()" type="button" class="btn btn-default">Throw a New Message</button>
     </div>
+
+    <!-- ### MESSAGES ### -->
+
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
             <li>
@@ -11,7 +18,6 @@
                     <input type="hidden" data-bind="value: id" />
                     <div class="message-header">
                         <a data-bind="page-href: {path: '../user', params: {nick: name}}">@@<span data-bind="text: name"></span></a> 
-@*                        <a data-bind="page-href: {path: '../details', params: {name: name, id: id}}">@@<span data-bind="text: name"></span></a>*@
                         <a class="replies" data-bind="page-href: {path: '../details', params: {name: name, id: id}}">replies</a>
                     </div>
                     <div class="user-text" data-bind="text: text"></div>
@@ -25,10 +31,17 @@
     </div>
 </div>
 
+<!-- ### PAGE THAT LISTS ALL OF A PARTICULAR USER'S MESAGE ### -->
+
 <div data-bind="page: {id: 'user', params: ['nick'], afterShow: cleanUp}" class="well-small">
+
+    <!-- ### HEADER ### -->
     <div class="row">
         <a class="logo" data-bind="page-href: '../start'"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
     </div>
+
+    <!-- ### MESSAGE FOR A USER ### -->
+
     <div class="row">
         <ul class="message-list" data-bind="foreach: messages">
             <li>
@@ -49,10 +62,18 @@
     </div>
 </div>
 
+<!-- ### DETAILS PAGE FOR A PARTICULAR MESSAGE AND ALL OF IT'S REPLIES ### -->
+
 <div data-bind="page: {id: 'details', params: ['name','id', 'reply'], afterShow: loadDetails}">
+
+    <!-- ### HEADER ### -->
+
     <div class="row">
         <a class="logo" data-bind="page-href: '../start'"><img src="~/Content/tomahawk.png" /> Tomahawk</a> <a class="btn btn-default" data-bind="page-href: '../start'">Back to messages</a>
     </div>
+
+    <!-- ### MESSAGE ### -->
+
     <div class="row">
         <!-- ko if: $root.details -->
         <!-- ko with: $root.details -->
@@ -68,6 +89,9 @@
             <br style="clear: both" />
         </div>
         <!-- /ko -->
+
+        <!-- ### REPLIES ### -->
+
         <ul data-bind="foreach: replies">
             <li>
                 <div class="reply" data-bind="attr: {id: 'reply_' + id}, css: { own: $root.username == name }">
@@ -87,6 +111,8 @@
     </div>
 </div>
 
+<!-- ### NEW MESSAGE DIALOG ### -->
+
 <div class="new-message" data-bind="dialog: { isOpen: messageIsOpen, title: 'New Message', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>
     <div>
@@ -94,6 +120,8 @@
         <label data-bind="text: getCharacterCount(), style:{color: canSend() ? 'green' : 'red'} "></label>
     </div>
 </div>
+
+<!-- ### NEW REPLY DIALOG ### -->
 
 <div class="new-reply" data-bind="dialog: { isOpen: replyIsOpen, title: 'New Reply', minWidth: 400, minHeight: 200 }">
     <textarea data-bind="value: messageText, valueUpdate: 'input'"></textarea>

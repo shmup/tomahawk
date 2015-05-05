@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     var vm = function () {
         var self = this
+
         self.loggedIn = ko.observable(false)
 
         if ($("#authorized").length) {
@@ -37,13 +38,6 @@
             self.messageIsOpen(true)
         }
 
-        self.openReply = function (cool) {
-            self.messageIsOpen(false)
-            self.messageText("")
-            self.replyData = this
-            self.replyIsOpen(true)
-        }
-
         self.sendMessage = function (data) {
             $.post("/Messages/Create", { Text: data.messageText(), __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val() }, function (result) {
                 if (result.success) {
@@ -52,21 +46,6 @@
                     self.messages.unshift(msg)
                     self.messageText("")
                     highlight($("#message_" +msg.id));
-                }
-            })
-        }
-
-        self.deleteReply = function () {
-            var reply = this;
-            var data = {
-                id: reply.id,
-                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
-            }
-            $.post("/Messages/ReplyDelete", data, function (result) {
-                if (result.success) {
-                    self.replies.remove(reply)
-                } else {
-                    alert("Nice try buddy")
                 }
             })
         }
@@ -87,17 +66,11 @@
             })
         }
 
-        self.spinnerLoader = function(page, element) {
-            var loader = {};
-            var txt = $('<img src="http://pagerjs.com/demo/ajax-loader.gif"/>');
-            loader.load = function () {
-                $(element).empty();
-                $(element).append(txt);
-            };
-            loader.unload = function () {
-                txt.remove();
-                };
-            return loader;
+        self.openReply = function (cool) {
+            self.messageIsOpen(false)
+            self.messageText("")
+            self.replyData = this
+            self.replyIsOpen(true)
         }
 
         self.sendReply = function () {
@@ -117,6 +90,34 @@
                     }
                     highlight(replyElement)
             })
+        }
+
+        self.deleteReply = function () {
+            var reply = this;
+            var data = {
+                id: reply.id,
+                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
+            }
+            $.post("/Messages/ReplyDelete", data, function (result) {
+                if (result.success) {
+                    self.replies.remove(reply)
+                } else {
+                    alert("Nice try buddy")
+                }
+            })
+        }
+
+        self.spinnerLoader = function(page, element) {
+            var loader = {};
+            var txt = $('<img src="http://pagerjs.com/demo/ajax-loader.gif"/>');
+            loader.load = function () {
+                $(element).empty();
+                $(element).append(txt);
+            };
+            loader.unload = function () {
+                txt.remove();
+                };
+            return loader;
         }
 
         self.cleanUp = function() {
@@ -215,7 +216,6 @@ var newSpinner = function () {
     };
     return new Spinner(opts).spin();
 }
-
 
 var highlight = function (elem) {
     $(elem).effect("highlight", { }, 1500);
